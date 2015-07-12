@@ -16,6 +16,15 @@
     <packaging>jar</packaging>
 
     <name>simple-object-store</name>
+    <developers>
+        <developer>
+            <name>paramvir-b</name>
+            <email>paramvir@rokoder.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>git:</connection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>com.zaxxer</groupId>
