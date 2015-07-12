@@ -1,5 +1,8 @@
 package com.rokoder.simpleobjectstore.serializer;
 
+/**
+ * Object serializer which converts object instances to @{link byte} arrays and vice versa
+ */
 public interface ObjectSerializer {
 
     /**
