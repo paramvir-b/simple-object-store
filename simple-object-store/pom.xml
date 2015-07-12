@@ -23,7 +23,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>git:</connection>
+        <connection>scm:git:file://.</connection>
+        <url>scm:git:file://.</url>
     </scm>
     <dependencies>
         <dependency>
