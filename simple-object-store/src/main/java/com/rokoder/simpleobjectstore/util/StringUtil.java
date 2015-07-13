@@ -3,7 +3,7 @@ package com.rokoder.simpleobjectstore.util;
 public class StringUtil {
 
     private StringUtil() {
-        // Util class no constructor
+        // Util class so no constructor
     }
 
     /**
