@@ -61,7 +61,7 @@ public class ObjectXmlSerializer implements ObjectSerializer {
 
     @Override
     public <T> T fromBytes(byte[] bytes, Class<T> classType) {
-        if (bytes == null) {
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
         String str = new String(bytes);

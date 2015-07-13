@@ -94,4 +94,23 @@ public class ObjectZipSerializerTest {
 
     }
 
+    @Test
+    public void testFromBytesWithNull() {
+        ObjectZipSerializer os = new ObjectZipSerializer(new ObjectJavaSerializer());
+
+        TestModel t1 = os.fromBytes(null, TestModel.class);
+
+        Assert.assertNull(t1);
+    }
+
+    @Test
+    public void testFromBytesWithEmpty() {
+        ObjectZipSerializer os = new ObjectZipSerializer(new ObjectJavaSerializer());
+
+        TestModel t1 = os.fromBytes(new byte[0], TestModel.class);
+        Assert.assertNull(t1);
+
+    }
+
+
 }

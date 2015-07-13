@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ObjectJavaSerializerTest {
@@ -48,12 +49,32 @@ public class ObjectJavaSerializerTest {
         Assert.assertNull(t1);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testFromBytesWithEmpty() {
         ObjectJavaSerializer os = new ObjectJavaSerializer();
 
+        TestModel t1 = os.fromBytes(new byte[0], TestModel.class);
+        Assert.assertNull(t1);
+
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testFromBytesWithLessBytes() {
+        ObjectJavaSerializer os = new ObjectJavaSerializer();
+
+        LocalDate ld = new LocalDate();
+        LocalDateTime ldt = new LocalDateTime();
+        Date d = ldt.toDate();
+        DateTime dt = new DateTime();
+
+        TestModel tc = new TestModel(10, 9.5f, "Hello", BigInteger.valueOf(10L), BigDecimal.valueOf(9.5), d, ld, ldt,
+                dt);
+        byte[] bytes = os.toBytes(tc);
+        // Creating imcomplete bytes to generate exception
+        byte[] copyBytes = Arrays.copyOf(bytes, 10);
+
         try {
-            os.fromBytes(new byte[0], TestModel.class);
+            os.fromBytes(copyBytes, TestModel.class);
         } catch (IllegalStateException e) {
             Assert.assertEquals(
                     "Unable to load bytes becasue of I/O Exception to object type=class com.rokoder.simpleobjectstore.serializer.TestModel",

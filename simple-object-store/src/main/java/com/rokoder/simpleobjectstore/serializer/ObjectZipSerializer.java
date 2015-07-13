@@ -70,7 +70,7 @@ public class ObjectZipSerializer implements ObjectSerializer {
 
     @Override
     public <T> T fromBytes(byte[] bytes, Class<T> classType) {
-        if (bytes == null) {
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
