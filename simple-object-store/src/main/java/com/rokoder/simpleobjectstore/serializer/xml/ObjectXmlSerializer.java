@@ -17,14 +17,6 @@ public class ObjectXmlSerializer implements ObjectSerializer {
     private final XStream xstream;
     private final boolean isCompact;
 
-    private XStream createDefaultXStream() {
-        XStream xs = new XStream();
-        xs.registerConverter(new LocalDateConverter());
-        xs.registerConverter(new LocalDateTimeConverter());
-        xs.registerConverter(new DateTimeConverter());
-        return xs;
-    }
-
     public ObjectXmlSerializer() {
         this.xstream = createDefaultXStream();
         this.isCompact = true; // By default we use compact writer
@@ -38,6 +30,14 @@ public class ObjectXmlSerializer implements ObjectSerializer {
     public ObjectXmlSerializer(XStream xstream, boolean isCompact) {
         this.xstream = xstream;
         this.isCompact = isCompact;
+    }
+
+    private XStream createDefaultXStream() {
+        XStream xs = new XStream();
+        xs.registerConverter(new LocalDateConverter());
+        xs.registerConverter(new LocalDateTimeConverter());
+        xs.registerConverter(new DateTimeConverter());
+        return xs;
     }
 
     @Override

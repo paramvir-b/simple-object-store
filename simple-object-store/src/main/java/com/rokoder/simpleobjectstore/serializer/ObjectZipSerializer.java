@@ -26,7 +26,9 @@ public class ObjectZipSerializer implements ObjectSerializer {
             gzos.flush();
             gzos.close();
         } catch (IOException e) {
-            throw new IllegalStateException("Unable to convert to bytes size=" + unzipBytes.length, e);
+            throw new IllegalStateException(
+                    "Unable to convert to \nbytes(" + unzipBytes.length + ")=" + StringUtil.byteArrayToHexString(
+                            unzipBytes), e);
         }
     }
 
@@ -82,8 +84,6 @@ public class ObjectZipSerializer implements ObjectSerializer {
                     StringUtil.byteArrayToHexString(unzipBytes));
         }
 
-        T obj = wrapObj.fromBytes(unzipBytes, classType);
-
-        return obj;
+        return wrapObj.fromBytes(unzipBytes, classType);
     }
 }
