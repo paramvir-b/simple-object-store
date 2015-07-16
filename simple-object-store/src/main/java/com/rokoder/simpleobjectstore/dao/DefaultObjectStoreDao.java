@@ -12,7 +12,10 @@ import java.sql.*;
 public class DefaultObjectStoreDao implements ObjectStoreDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultObjectStoreDao.class);
     private final String selectQueryWithStringKeyStr;
+    private final String queryUpdateKey;
     private final String queryAllKeyCount;
+    private final String queryDeleteKey;
+    private final String queryDeleteByExpireTime;
 
     /**
      * Data source used as storage
@@ -43,11 +46,18 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
                 ObjectStoreCols.KEY + "=? and (" +
                 ObjectStoreCols.EXPIRE_TIME + ">=? or " +
                 ObjectStoreCols.EXPIRE_TIME + " IS NULL )";
+        queryUpdateKey = DatabaseUtil.createUpdateQuery(tableName,
+                new String[]{ObjectStoreCols.UPDATE_TIME, ObjectStoreCols.EXPIRE_TIME, ObjectStoreCols.VALUE_OBJ}) +
+                " where " + ObjectStoreCols.KEY + "=?";
+
 
         queryAllKeyCount = "SELECT count(*) FROM " +
                 tableName +
                 " where " +
                 ObjectStoreCols.KEY + "=?";
+
+        queryDeleteKey = "delete from " + tableName + " where " + ObjectStoreCols.KEY + "=?";
+        queryDeleteByExpireTime = "delete from " + tableName + " where " + ObjectStoreCols.EXPIRE_TIME + "<?";
     }
 
     @Override
@@ -157,13 +167,8 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
         PreparedStatement stmt = null;
         try {
             conn = dataSource.getConnection();
-            String queryStr;
 
-            queryStr = DatabaseUtil.createUpdateQuery(tableName,
-                    new String[]{ObjectStoreCols.UPDATE_TIME, ObjectStoreCols.EXPIRE_TIME, ObjectStoreCols.VALUE_OBJ});
-
-            queryStr += " where " + ObjectStoreCols.KEY + "=?";
-            stmt = conn.prepareStatement(queryStr);
+            stmt = conn.prepareStatement(queryUpdateKey);
             LocalDateTime ldt = new LocalDateTime();
             Timestamp updateTime = new Timestamp(ldt.toDate().getTime());
             stmt.setTimestamp(1, updateTime);
@@ -206,9 +211,8 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
         PreparedStatement stmt = null;
         try {
             conn = dataSource.getConnection();
-            final String queryStr = "delete from " + tableName + " where " + ObjectStoreCols.KEY + "=?";
 
-            stmt = conn.prepareStatement(queryStr);
+            stmt = conn.prepareStatement(queryDeleteKey);
             stmt.setString(1, key);
             stmt.execute();
 
@@ -230,9 +234,8 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
         PreparedStatement stmt = null;
         try {
             conn = dataSource.getConnection();
-            final String queryStr = "delete from " + tableName + " where " + ObjectStoreCols.EXPIRE_TIME + "<?";
 
-            stmt = conn.prepareStatement(queryStr);
+            stmt = conn.prepareStatement(queryDeleteByExpireTime);
 
             Timestamp delTS = new Timestamp(expireTime.toDate().getTime());
 
