@@ -1,4 +1,4 @@
-package com.rokoder.simpleobjectstore.serializer;
+package com.rokoder.simpleobjectstore;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;

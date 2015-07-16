@@ -1,5 +1,6 @@
 package com.rokoder.simpleobjectstore.serializer;
 
+import com.rokoder.simpleobjectstore.TestModel;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -26,17 +27,17 @@ public class ObjectJavaSerializerTest {
                 dt);
         byte[] bytes = os.toBytes(tc);
 
-        TestModel t1 = os.fromBytes(bytes, TestModel.class);
+        TestModel actTM = os.fromBytes(bytes, TestModel.class);
 
-        Assert.assertEquals(tc.getVarInt(), t1.getVarInt());
-        Assert.assertEquals(tc.getVarFloat(), t1.getVarFloat(), 0.0001);
-        Assert.assertEquals(tc.getVarString(), t1.getVarString());
-        Assert.assertEquals(tc.getVarBigInteger(), t1.getVarBigInteger());
-        Assert.assertEquals(tc.getVarBigDecimal(), t1.getVarBigDecimal());
-        Assert.assertEquals(tc.getVarDate(), t1.getVarDate());
-        Assert.assertEquals(tc.getVarLocalDate(), t1.getVarLocalDate());
-        Assert.assertEquals(tc.getVarLocalDateTime(), t1.getVarLocalDateTime());
-        Assert.assertEquals(tc.getVarDateTime(), t1.getVarDateTime());
+        Assert.assertEquals(tc.getVarInt(), actTM.getVarInt());
+        Assert.assertEquals(tc.getVarFloat(), actTM.getVarFloat(), 0.0001);
+        Assert.assertEquals(tc.getVarString(), actTM.getVarString());
+        Assert.assertEquals(tc.getVarBigInteger(), actTM.getVarBigInteger());
+        Assert.assertEquals(tc.getVarBigDecimal(), actTM.getVarBigDecimal());
+        Assert.assertEquals(tc.getVarDate(), actTM.getVarDate());
+        Assert.assertEquals(tc.getVarLocalDate(), actTM.getVarLocalDate());
+        Assert.assertEquals(tc.getVarLocalDateTime(), actTM.getVarLocalDateTime());
+        Assert.assertEquals(tc.getVarDateTime(), actTM.getVarDateTime());
 
     }
 
@@ -77,7 +78,7 @@ public class ObjectJavaSerializerTest {
             os.fromBytes(copyBytes, TestModel.class);
         } catch (IllegalStateException e) {
             Assert.assertEquals(
-                    "Unable to load bytes becasue of I/O Exception to object type=class com.rokoder.simpleobjectstore.serializer.TestModel",
+                    "Unable to load bytes becasue of I/O Exception to object type=class com.rokoder.simpleobjectstore.TestModel",
                     e.getMessage());
             throw e;
         }
