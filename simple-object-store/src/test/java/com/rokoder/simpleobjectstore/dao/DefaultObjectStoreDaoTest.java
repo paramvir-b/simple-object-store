@@ -25,6 +25,29 @@ public abstract class DefaultObjectStoreDaoTest {
         Assert.assertEquals("Hello", value);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithNullDataSource() {
+        try {
+            new DefaultObjectStoreDao(null, "object store");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("DataSouce cannot be null", e.getMessage());
+            throw e;
+        }
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithSpaceInTableName() {
+        try {
+            DataSource dataSource = createDataSource();
+            new DefaultObjectStoreDao(dataSource, "object store");
+
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("Table cannot contain space. tableName='object store'", e.getMessage());
+            throw e;
+        }
+
+    }
 
     @Test
     public void testInsertWithNull() {

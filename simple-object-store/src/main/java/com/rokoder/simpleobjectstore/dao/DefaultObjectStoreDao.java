@@ -24,6 +24,14 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
     private final String tableName;
 
     public DefaultObjectStoreDao(DataSource dataSource, String tableName) {
+        if (dataSource == null) {
+            throw new IllegalArgumentException("DataSouce cannot be null");
+        }
+
+        if (tableName.contains(" ")) {
+            throw new IllegalArgumentException("Table cannot contain space. tableName='" + tableName + "'");
+        }
+
         this.dataSource = dataSource;
         this.tableName = tableName;
 
