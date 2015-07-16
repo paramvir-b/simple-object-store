@@ -6,6 +6,8 @@ public interface ObjectStore {
 
     String getName();
 
+    String getId();
+
     void put(String key, Object valueObj);
 
     void put(String key, Object valueObj, LocalDateTime expireTime);
