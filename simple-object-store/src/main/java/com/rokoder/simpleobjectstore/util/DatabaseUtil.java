@@ -59,15 +59,15 @@ public class DatabaseUtil {
 
         sb.append(tableName);
         sb.append(" (");
-        sbValues.append(" values(");
+        sbValues.append(" values (");
 
         int columnListLen = columnList.length;
         for (int i = 0; i < columnListLen; i++) {
             sb.append(columnList[i]);
             sbValues.append("?");
             if (i + 1 < columnList.length) {
-                sb.append(",");
-                sbValues.append(",");
+                sb.append(", ");
+                sbValues.append(", ");
             }
         }
 
@@ -80,6 +80,11 @@ public class DatabaseUtil {
         return sb.toString();
     }
 
+    /**
+     * @param tableName  Name of table for update query
+     * @param columnList Array of column names
+     * @return Update query with binding parameters
+     */
     public static String createUpdateQuery(String tableName, String[] columnList) {
         StringBuilder sb = new StringBuilder();
         sb.append("update ");
@@ -99,7 +104,7 @@ public class DatabaseUtil {
             sb.append(columnList[i]);
             sb.append("=?");
             if (i + 1 < columnList.length) {
-                sb.append(",");
+                sb.append(", ");
             }
         }
 
