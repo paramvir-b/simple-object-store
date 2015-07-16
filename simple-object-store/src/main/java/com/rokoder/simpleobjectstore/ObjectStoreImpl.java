@@ -27,11 +27,11 @@ public class ObjectStoreImpl implements ObjectStore {
      */
     private final ObjectSerializer objectSerializer;
 
-    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, String tableName, ObjectSerializer objectSerializer) {
-        this(name, objectStoreDao, tableName, objectSerializer, false);
+    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, ObjectSerializer objectSerializer) {
+        this(name, objectStoreDao, objectSerializer, false);
     }
 
-    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, String tableName, ObjectSerializer objectSerializer, boolean createSchema) {
+    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, ObjectSerializer objectSerializer, boolean createSchema) {
         this.name = name;
         this.objectStoreDao = objectStoreDao;
         this.objectSerializer = objectSerializer;
