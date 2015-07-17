@@ -76,7 +76,7 @@ public abstract class DefaultObjectStoreDaoTest {
     }
 
     @Test
-    public void testInsertWithNull() {
+    public void testInsertWithoutExpiry() {
         DataSource dataSource = createDataSource();
 
         ObjectStoreDao osd = new DefaultObjectStoreDao(dataSource, "object_store");
@@ -91,18 +91,22 @@ public abstract class DefaultObjectStoreDaoTest {
     }
 
     @Test
-    public void testInsertWithoutNull() {
+    public void testInsertWithExpiry() throws InterruptedException {
         DataSource dataSource = createDataSource();
 
         ObjectStoreDao osd = new DefaultObjectStoreDao(dataSource, "object_store");
 
         osd.createTableSchema();
 
-        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(10));
+        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(1));
 
         String value = new String(osd.fetchBytes("1", new LocalDateTime()));
 
         Assert.assertEquals("Hello", value);
+
+        Thread.sleep(1000);
+
+        Assert.assertNull(osd.fetchBytes("1", new LocalDateTime()));
     }
 
 
@@ -127,23 +131,27 @@ public abstract class DefaultObjectStoreDaoTest {
     }
 
     @Test
-    public void testUpdateWithExpireTime() {
+    public void testUpdateWithExpireTime() throws InterruptedException {
         DataSource dataSource = createDataSource();
 
         ObjectStoreDao osd = new DefaultObjectStoreDao(dataSource, "object_store");
 
         osd.createTableSchema();
 
-        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(10));
+        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(1));
 
         String value;
 
         value = new String(osd.fetchBytes("1", new LocalDateTime()));
         Assert.assertEquals("Hello", value);
 
-        osd.update("1", "Hello_New".getBytes(), null);
+        osd.update("1", "Hello_New".getBytes(), new LocalDateTime().plusSeconds(1));
         value = new String(osd.fetchBytes("1", new LocalDateTime()));
         Assert.assertEquals("Hello_New", value);
+
+        Thread.sleep(1000);
+
+        Assert.assertNull(osd.fetchBytes("1", new LocalDateTime()));
     }
 
     @Test
@@ -193,13 +201,16 @@ public abstract class DefaultObjectStoreDaoTest {
 
         osd.createTableSchema();
 
-        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(10));
+        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(1));
 
         String value;
 
         value = new String(osd.fetchBytes("1", new LocalDateTime()));
         Assert.assertEquals("Hello", value);
 
+        osd.deleteByExpireTime(new LocalDateTime().plusSeconds(1));
+
+        Assert.assertNull(osd.fetchBytes("1", new LocalDateTime()));
     }
 
 }

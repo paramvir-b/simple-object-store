@@ -49,4 +49,66 @@ public class ObjectStoreImplTest {
         Assert.assertEquals(tc.getVarLocalDateTime(), actTM.getVarLocalDateTime());
         Assert.assertEquals(tc.getVarDateTime(), actTM.getVarDateTime());
     }
+
+    @Test
+    public void testPutWithExpiry() throws InterruptedException {
+        ObjectStore os = createObjectStore();
+
+        LocalDate ld = new LocalDate();
+        LocalDateTime ldt = new LocalDateTime();
+        Date d = ldt.toDate();
+        DateTime dt = new DateTime();
+
+        TestModel tc = new TestModel(10, 9.5f, "Hello", BigInteger.valueOf(10L), BigDecimal.valueOf(9.5), d, ld, ldt,
+                dt);
+
+        os.put("1", tc, new LocalDateTime().plusSeconds(1));
+        TestModel actTM = os.get("1", TestModel.class);
+
+        Assert.assertEquals(tc.getVarInt(), actTM.getVarInt());
+        Assert.assertEquals(tc.getVarFloat(), actTM.getVarFloat(), 0.0001);
+        Assert.assertEquals(tc.getVarString(), actTM.getVarString());
+        Assert.assertEquals(tc.getVarBigInteger(), actTM.getVarBigInteger());
+        Assert.assertEquals(tc.getVarBigDecimal(), actTM.getVarBigDecimal());
+        Assert.assertEquals(tc.getVarDate(), actTM.getVarDate());
+        Assert.assertEquals(tc.getVarLocalDate(), actTM.getVarLocalDate());
+        Assert.assertEquals(tc.getVarLocalDateTime(), actTM.getVarLocalDateTime());
+        Assert.assertEquals(tc.getVarDateTime(), actTM.getVarDateTime());
+
+        Thread.sleep(1000);
+
+        Assert.assertNull(os.get("1", TestModel.class));
+    }
+
+
+    @Test
+    public void testDelete() {
+        ObjectStore os = createObjectStore();
+
+        LocalDate ld = new LocalDate();
+        LocalDateTime ldt = new LocalDateTime();
+        Date d = ldt.toDate();
+        DateTime dt = new DateTime();
+
+        TestModel tc = new TestModel(10, 9.5f, "Hello", BigInteger.valueOf(10L), BigDecimal.valueOf(9.5), d, ld, ldt,
+                dt);
+
+        os.put("1", tc);
+        TestModel actTM = os.get("1", TestModel.class);
+
+        Assert.assertEquals(tc.getVarInt(), actTM.getVarInt());
+        Assert.assertEquals(tc.getVarFloat(), actTM.getVarFloat(), 0.0001);
+        Assert.assertEquals(tc.getVarString(), actTM.getVarString());
+        Assert.assertEquals(tc.getVarBigInteger(), actTM.getVarBigInteger());
+        Assert.assertEquals(tc.getVarBigDecimal(), actTM.getVarBigDecimal());
+        Assert.assertEquals(tc.getVarDate(), actTM.getVarDate());
+        Assert.assertEquals(tc.getVarLocalDate(), actTM.getVarLocalDate());
+        Assert.assertEquals(tc.getVarLocalDateTime(), actTM.getVarLocalDateTime());
+        Assert.assertEquals(tc.getVarDateTime(), actTM.getVarDateTime());
+
+        os.delete("1");
+
+        Assert.assertNull(os.get("1", TestModel.class));
+    }
+
 }
