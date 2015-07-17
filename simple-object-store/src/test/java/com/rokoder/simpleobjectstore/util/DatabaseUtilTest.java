@@ -12,6 +12,11 @@ import java.sql.Statement;
 public class DatabaseUtilTest {
 
     @Test
+    public void testConstructor() {
+        TestHelper.testPrivateVoidConstructor(DatabaseUtil.class);
+    }
+
+    @Test
     public void testCreateInsertQuery() {
         String actInsertQuery = DatabaseUtil.createInsertQuery("table_name", new String[]{"col1", "col2"});
 
@@ -104,6 +109,11 @@ public class DatabaseUtilTest {
         Mockito.verify(mockStmt).close();
         Mockito.verify(mockRS).close();
 
+    }
+
+    @Test
+    public void testCloseConnStmtRsAndIgnoreExpWithAllNulls() throws SQLException {
+        DatabaseUtil.closeConnStmtRsAndIgnoreExp(null, null, null);
     }
 
 }
