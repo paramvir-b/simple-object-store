@@ -82,6 +82,13 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
                     ObjectStoreCols.EXPIRE_TIME + " TIMESTAMP, " +
                     ObjectStoreCols.KEY + " VARCHAR(200), " +
                     ObjectStoreCols.VALUE_OBJ + " BLOB" + ")";
+            LOGGER.info("create table query={}", query);
+            stmt.execute(query);
+
+            // Create index for better performance of fetching data
+            query = "CREATE index " + tableName + "_" + ObjectStoreCols.KEY +
+                    " on " + tableName + " (" + ObjectStoreCols.KEY + ")";
+            LOGGER.info("create index query={}", query);
             stmt.execute(query);
         } catch (SQLException e) {
             throw new IllegalStateException("Creating table failed for: " + e.getMessage(), e);
@@ -274,9 +281,6 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
 
             if (rs.next()) {
                 keyCount = rs.getLong(1);
-                if (rs.next()) {
-                    throw new IllegalStateException("Key should return only one row");
-                }
             }
 
         } catch (SQLException e) {
