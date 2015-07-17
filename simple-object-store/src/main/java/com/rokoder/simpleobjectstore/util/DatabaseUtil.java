@@ -46,16 +46,12 @@ public class DatabaseUtil {
      * @return Insert query with binding parameters
      */
     public static String createInsertQuery(String tableName, String[] columnList) {
+        checkTableName(tableName);
+        checkColumnList(columnList);
+
         StringBuilder sb = new StringBuilder();
         StringBuilder sbValues = new StringBuilder();
         sb.append("insert into ");
-        if (tableName == null || tableName.isEmpty()) {
-            throw new IllegalArgumentException("tableName is null or empty");
-        }
-
-        if (columnList == null) {
-            throw new IllegalArgumentException("columnList is null");
-        }
 
         sb.append(tableName);
         sb.append(" (");
@@ -86,15 +82,11 @@ public class DatabaseUtil {
      * @return Update query with binding parameters
      */
     public static String createUpdateQuery(String tableName, String[] columnList) {
+        checkTableName(tableName);
+        checkColumnList(columnList);
+
         StringBuilder sb = new StringBuilder();
         sb.append("update ");
-        if (tableName == null || tableName.isEmpty()) {
-            throw new IllegalArgumentException("tableName is null or empty");
-        }
-
-        if (columnList == null) {
-            throw new IllegalArgumentException("columnList is null");
-        }
 
         sb.append(tableName);
         sb.append(" set ");
@@ -110,5 +102,29 @@ public class DatabaseUtil {
 
         LOGGER.trace("udpate query={}", sb.toString());
         return sb.toString();
+    }
+
+    private static void checkTableName(String tableName) {
+        if (tableName == null) {
+            throw new IllegalArgumentException("tableName is null");
+        }
+
+        if (tableName.isEmpty()) {
+            throw new IllegalArgumentException("tableName is empty");
+        }
+
+        if (tableName.contains(" ")) {
+            throw new IllegalArgumentException("Table name cannot contain space. tableName='" + tableName + "'");
+        }
+
+    }
+
+    private static void checkColumnList(String[] columnList) {
+        if (columnList == null) {
+            throw new IllegalArgumentException("columnList cannot be null");
+        }
+        if (columnList.length == 0) {
+            throw new IllegalArgumentException("columnList cannot be of zero length");
+        }
     }
 }
