@@ -129,7 +129,7 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
     @Override
     public byte[] fetchBytes(String key, LocalDateTime now) {
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("Fetching bytes stringKey={}  ", key);
+            LOGGER.trace("Fetching bytes stringKey={} now={}", key, now);
         }
 
         Connection conn = null;
