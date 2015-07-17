@@ -29,7 +29,7 @@ public class DatabaseUtilTest {
         try {
             DatabaseUtil.createInsertQuery(null, new String[]{"col1", "col2"});
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals("tableName is null", e.getMessage());
+            Assert.assertEquals("Table name is null", e.getMessage());
             throw e;
         }
     }
@@ -39,7 +39,7 @@ public class DatabaseUtilTest {
         try {
             DatabaseUtil.createInsertQuery("", new String[]{"col1", "col2"});
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals("tableName is empty", e.getMessage());
+            Assert.assertEquals("Table name is empty", e.getMessage());
             throw e;
         }
     }

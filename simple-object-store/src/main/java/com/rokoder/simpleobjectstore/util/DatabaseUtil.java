@@ -106,11 +106,11 @@ public class DatabaseUtil {
 
     private static void checkTableName(String tableName) {
         if (tableName == null) {
-            throw new IllegalArgumentException("tableName is null");
+            throw new IllegalArgumentException("Table name is null");
         }
 
         if (tableName.isEmpty()) {
-            throw new IllegalArgumentException("tableName is empty");
+            throw new IllegalArgumentException("Table name is empty");
         }
 
         if (tableName.contains(" ")) {
