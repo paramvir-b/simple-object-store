@@ -4,7 +4,7 @@ import org.joda.time.LocalDateTime;
 
 public interface ObjectStoreDao {
 
-    public static class ObjectStoreCols {
+    public interface ObjectStoreCols {
         /**
          * Create time for entry
          */
@@ -26,9 +26,6 @@ public interface ObjectStoreDao {
          */
         public static final String VALUE_OBJ = "VALUE_OBJ";
 
-        private ObjectStoreCols() {
-            // No one can create it
-        }
     }
 
     void createTableSchema();
