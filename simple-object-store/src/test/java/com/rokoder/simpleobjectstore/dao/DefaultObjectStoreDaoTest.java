@@ -28,9 +28,35 @@ public abstract class DefaultObjectStoreDaoTest {
     @Test(expected = IllegalArgumentException.class)
     public void testWithNullDataSource() {
         try {
-            new DefaultObjectStoreDao(null, "object store");
+            new DefaultObjectStoreDao(null, "object_store");
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals("DataSouce cannot be null", e.getMessage());
+            Assert.assertEquals("DataSource cannot be null", e.getMessage());
+            throw e;
+        }
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithSpaceInTableNameNull() {
+        try {
+            DataSource dataSource = createDataSource();
+            new DefaultObjectStoreDao(dataSource, null);
+
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("Table name is null", e.getMessage());
+            throw e;
+        }
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithSpaceInTableNameEmpty() {
+        try {
+            DataSource dataSource = createDataSource();
+            new DefaultObjectStoreDao(dataSource, "");
+
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("Table name is empty", e.getMessage());
             throw e;
         }
 
@@ -43,7 +69,7 @@ public abstract class DefaultObjectStoreDaoTest {
             new DefaultObjectStoreDao(dataSource, "object store");
 
         } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Table cannot contain space. tableName='object store'", e.getMessage());
+            Assert.assertEquals("Table name cannot contain space. tableName='object store'", e.getMessage());
             throw e;
         }
 
@@ -81,7 +107,7 @@ public abstract class DefaultObjectStoreDaoTest {
 
 
     @Test
-    public void testUpdate() {
+    public void testUpdateWithNullExpireTime() {
         DataSource dataSource = createDataSource();
 
         ObjectStoreDao osd = new DefaultObjectStoreDao(dataSource, "object_store");
@@ -89,6 +115,26 @@ public abstract class DefaultObjectStoreDaoTest {
         osd.createTableSchema();
 
         osd.insert("1", "Hello".getBytes(), null);
+
+        String value;
+
+        value = new String(osd.fetchBytes("1", new LocalDateTime()));
+        Assert.assertEquals("Hello", value);
+
+        osd.update("1", "Hello_New".getBytes(), null);
+        value = new String(osd.fetchBytes("1", new LocalDateTime()));
+        Assert.assertEquals("Hello_New", value);
+    }
+
+    @Test
+    public void testUpdateWithExpireTime() {
+        DataSource dataSource = createDataSource();
+
+        ObjectStoreDao osd = new DefaultObjectStoreDao(dataSource, "object_store");
+
+        osd.createTableSchema();
+
+        osd.insert("1", "Hello".getBytes(), new LocalDateTime().plusSeconds(10));
 
         String value;
 

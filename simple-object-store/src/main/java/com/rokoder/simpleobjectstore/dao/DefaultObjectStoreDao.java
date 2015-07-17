@@ -28,11 +28,19 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
 
     public DefaultObjectStoreDao(DataSource dataSource, String tableName) {
         if (dataSource == null) {
-            throw new IllegalArgumentException("DataSouce cannot be null");
+            throw new IllegalArgumentException("DataSource cannot be null");
+        }
+
+        if (tableName == null) {
+            throw new IllegalArgumentException("Table name is null");
+        }
+
+        if (tableName.isEmpty()) {
+            throw new IllegalArgumentException("Table name is empty");
         }
 
         if (tableName.contains(" ")) {
-            throw new IllegalArgumentException("Table cannot contain space. tableName='" + tableName + "'");
+            throw new IllegalArgumentException("Table name cannot contain space. tableName='" + tableName + "'");
         }
 
         this.dataSource = dataSource;

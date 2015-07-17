@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 
 public class DefaultObjectStoreDaoTestWithDerby extends DefaultObjectStoreDaoTest {
+
     @Override
     public DataSource createDataSource() {
         HikariDataSource dataSource = PooledDataSourceFactory.createDefaultInMemoryDataSourceUsingDerby();
