@@ -6,6 +6,11 @@ import org.junit.Test;
 public class StringUtilTest {
 
     @Test
+    public void testConstructor() {
+        TestHelper.testPrivateVoidConstructor(StringUtil.class);
+    }
+
+    @Test
     public void testBasic() {
         byte bytes[] = new byte[8];
         bytes[0] = 0;
