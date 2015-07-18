@@ -98,8 +98,4 @@ public class ObjectStoreImpl implements ObjectStore {
         objectStoreDao.delete(key);
     }
 
-    @Override
-    public void deleteExpiredObjects() {
-        objectStoreDao.deleteByExpireTime(new LocalDateTime());
-    }
 }

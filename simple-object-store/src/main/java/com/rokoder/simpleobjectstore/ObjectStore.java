@@ -20,5 +20,4 @@ public interface ObjectStore {
 
     void delete(String key);
 
-    void deleteExpiredObjects();
 }
