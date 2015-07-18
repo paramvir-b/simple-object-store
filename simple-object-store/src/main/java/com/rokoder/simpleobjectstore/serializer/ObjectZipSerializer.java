@@ -65,8 +65,8 @@ public class ObjectZipSerializer implements ObjectSerializer {
             bis.close();
             return unzipBos.toByteArray();
         } catch (IOException e) {
-            throw new IllegalStateException("Unable to load bytes becasue of I/O Exception to object type=" + classType,
-                    e);
+            throw new IllegalArgumentException(
+                    "Unable to load bytes becasue of I/O Exception to object type=" + classType, e);
         }
     }
 
