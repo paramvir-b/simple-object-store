@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -113,5 +114,20 @@ public class ObjectZipSerializerTest {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testFromBytesException() {
+        ObjectSerializer mockObjSerializer = Mockito.mock(ObjectSerializer.class);
+        Mockito.when(mockObjSerializer.toBytes(Mockito.any())).thenReturn(new byte[10]);
 
+        ObjectZipSerializer os = new ObjectZipSerializer(mockObjSerializer);
+
+        try {
+            os.fromBytes(new byte[10], String.class);
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("Unable to load bytes becasue of I/O Exception to object type=class java.lang.String",
+                    e.getMessage());
+            throw e;
+        }
+
+    }
 }
