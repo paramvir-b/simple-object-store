@@ -207,7 +207,10 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
 
     @Override
     public void insertOrUpdate(String key, byte[] bytes, LocalDateTime expireTime) {
-        LOGGER.trace("insertOrUpdate stringKey={}", key);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("insertOrUpdate stringKey={}", key);
+        }
+
         long keyCount = getAllKeyCount(key);
         if (keyCount == 1) {
             // Update the data
@@ -244,7 +247,10 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
     @Override
     public void deleteByExpireTime(LocalDateTime expireTime) {
 
-        LOGGER.debug("Deleting expired objects");
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Deleting expired objects expireTime={}", expireTime);
+        }
+
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
@@ -291,7 +297,9 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
             DatabaseUtil.closeConnStmtRsAndIgnoreExp(conn, stmt, rs);
         }
 
-        LOGGER.trace("key={} keyCount={} ={}", key, keyCount);
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("key={} keyCount={} ={}", key, keyCount);
+        }
         return keyCount;
     }
 
