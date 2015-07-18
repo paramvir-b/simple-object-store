@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.sql.*;
 
+/**
+ * We created DAO so that in future we can implement for various Databases. And generally these databases differ slightly
+ */
 public class DefaultObjectStoreDao implements ObjectStoreDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultObjectStoreDao.class);
     private final String selectQueryWithStringKeyStr;
