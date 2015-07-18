@@ -35,6 +35,9 @@ public class ObjectStoreImplTest {
 
         ObjectStoreImpl objStore = new ObjectStoreImpl("test-object-store", doso, os);
 
+        Assert.assertEquals("test-object-store", objStore.getName());
+        Assert.assertEquals(36, objStore.getId().length());
+
         objStore.put("1", "Hello");
 
         Assert.assertEquals("Hello", objStore.get("1", String.class));
@@ -43,6 +46,9 @@ public class ObjectStoreImplTest {
     @Test
     public void testBasic() {
         ObjectStore os = createObjectStore();
+
+        Assert.assertEquals("test-object-store", os.getName());
+        Assert.assertEquals(36, os.getId().length());
 
         LocalDate ld = new LocalDate();
         LocalDateTime ldt = new LocalDateTime();
