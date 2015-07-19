@@ -2,6 +2,10 @@ package com.rokoder.simpleobjectstore.dao;
 
 import org.joda.time.LocalDateTime;
 
+/**
+ * DAO for storing byte arrays. This is kept separate so that we can have different implementations based on the database
+ * we are using.
+ */
 public interface ObjectStoreDao {
 
     public interface ObjectStoreCols {
