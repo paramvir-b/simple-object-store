@@ -32,16 +32,18 @@ public class ObjectJsonSerializer implements ObjectSerializer {
     /**
      * Default json serializer created with default converters for java Date and joda-time date classes. In addition
      * you can control output format.
+     *
+     * @param isCompact If true then object will be serialized to compact json format
      */
     public ObjectJsonSerializer(boolean isCompact) {
         gson = createGson(isCompact);
     }
 
     /**
-     * If you want to provide your own Gson object. You have to customize all by yourself. This way it won't register
-     * default converters or apply any changes to passed gson object. You have full control.
+     * If you want to provide your own @{link Gson} object. You have to customize all by yourself. This way it won't register
+     * default converters or apply any changes to passed @{link Gson} object. You have full control.
      *
-     * @param gson
+     * @param gson User specified @{link Gson} object which will be used for serialization
      */
     public ObjectJsonSerializer(Gson gson) {
         this.gson = gson;

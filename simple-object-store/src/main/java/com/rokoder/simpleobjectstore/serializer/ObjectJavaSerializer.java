@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
+/**
+ * Java serializer to convert objects to byte array
+ */
 public class ObjectJavaSerializer implements ObjectSerializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectJavaSerializer.class);
 

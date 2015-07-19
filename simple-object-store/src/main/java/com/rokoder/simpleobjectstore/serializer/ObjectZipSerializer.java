@@ -10,11 +10,19 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * Zip serializer is a decorator which wraps another serializer and convert objects to zipped byte array.
+ */
 public class ObjectZipSerializer implements ObjectSerializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectZipSerializer.class);
 
     private final ObjectSerializer wrapObj;
 
+    /**
+     * Creates zip serializer by wrapping passed serializer by using decorator pattern
+     *
+     * @param wrapObj Serializer object ot wrap.
+     */
     public ObjectZipSerializer(ObjectSerializer wrapObj) {
         this.wrapObj = wrapObj;
     }
