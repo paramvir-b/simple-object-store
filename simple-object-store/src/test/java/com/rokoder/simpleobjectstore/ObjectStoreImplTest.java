@@ -21,7 +21,8 @@ public class ObjectStoreImplTest {
         DataSource ds = PooledDataSourceFactory.createDefaultInMemoryDataSourceUsingDerby();
         ObjectSerializer os = new ObjectXmlSerializer();
 
-        return new ObjectStoreImpl("test-object-store", new DefaultObjectStoreDao(ds, "test_object_store"), os, true);
+        return new ObjectStoreImpl("test-object-store", new DefaultObjectStoreDao(ds, "test_object_store"), os, true,
+                2);
     }
 
     @Test

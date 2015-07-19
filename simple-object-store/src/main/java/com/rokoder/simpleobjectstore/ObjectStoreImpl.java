@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 public class ObjectStoreImpl implements ObjectStore {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjectStoreImpl.class);
@@ -27,11 +31,13 @@ public class ObjectStoreImpl implements ObjectStore {
      */
     private final ObjectSerializer objectSerializer;
 
+    private ScheduledExecutorService scheduledES;
+
     public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, ObjectSerializer objectSerializer) {
-        this(name, objectStoreDao, objectSerializer, false);
+        this(name, objectStoreDao, objectSerializer, false, 0);
     }
 
-    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, ObjectSerializer objectSerializer, boolean createSchema) {
+    public ObjectStoreImpl(String name, ObjectStoreDao objectStoreDao, ObjectSerializer objectSerializer, boolean createSchema, int deleteExpFreqSeconds) {
         this.name = name;
         this.objectStoreDao = objectStoreDao;
         this.objectSerializer = objectSerializer;
@@ -39,6 +45,44 @@ public class ObjectStoreImpl implements ObjectStore {
         if (createSchema) {
             objectStoreDao.createTableSchema();
         }
+
+        setupDeletionThread(deleteExpFreqSeconds);
+    }
+
+
+    private void setupDeletionThread(int deleteFreqSeconds) {
+        if (deleteFreqSeconds < 0) {
+            throw new IllegalArgumentException(
+                    "deleteFreqSeconds cannot be less than zero deleteFreqSeconds=" + deleteFreqSeconds);
+        }
+
+        if (deleteFreqSeconds == 0) {
+            LOGGER.info("No automatic deletion thread setup as deleteFreqSeconds={}", deleteFreqSeconds);
+            return;
+        }
+
+        LOGGER.info("Creating automatic deletion thread with deleteFreqSeconds={}", deleteFreqSeconds);
+        scheduledES = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable runnable) {
+                Thread thread = Executors.defaultThreadFactory().newThread(runnable);
+                // We can make thread as daemon as its ok to have some expired objects left behind. We can delete them
+                // next time. This way we do not have to
+                thread.setDaemon(true);
+                thread.setName("obj-str-del");
+                return thread;
+            }
+        });
+
+        scheduledES.scheduleAtFixedRate(new Runnable() {
+
+            @Override
+            public void run() {
+                LocalDateTime now = new LocalDateTime();
+                LOGGER.trace("Deleting expired objects for time={}", now);
+                objectStoreDao.deleteByExpireTime(now);
+            }
+        }, 0, deleteFreqSeconds, TimeUnit.SECONDS);
     }
 
     @Override
