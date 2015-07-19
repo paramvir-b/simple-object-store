@@ -28,6 +28,9 @@ public class ObjectZipSerializerTest {
                 dt);
         byte[] bytes = os.toBytes(tc);
 
+        Assert.assertNotNull(bytes);
+        Assert.assertNotEquals(0, bytes.length);
+
         TestModel t1 = os.fromBytes(bytes, TestModel.class);
 
         Assert.assertEquals(tc.getVarInt(), t1.getVarInt());

@@ -16,7 +16,7 @@ public class ObjectXmlSerializerTest {
 
     @Test
     public void testBasic() {
-        ObjectXmlSerializer os = new ObjectXmlSerializer();
+        ObjectXmlSerializer os = new ObjectXmlSerializer(false);
 
         LocalDate ld = new LocalDate();
         LocalDateTime ldt = new LocalDateTime();
@@ -26,6 +26,9 @@ public class ObjectXmlSerializerTest {
         TestModel tc = new TestModel(10, 9.5f, "Hello", BigInteger.valueOf(10L), BigDecimal.valueOf(9.5), d, ld, ldt,
                 dt);
         byte[] bytes = os.toBytes(tc);
+
+        Assert.assertNotNull(bytes);
+        Assert.assertNotEquals(0, bytes.length);
 
         TestModel actTM = os.fromBytes(bytes, TestModel.class);
 

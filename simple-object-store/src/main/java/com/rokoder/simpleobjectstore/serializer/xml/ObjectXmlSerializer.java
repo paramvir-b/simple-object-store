@@ -53,7 +53,7 @@ public class ObjectXmlSerializer implements ObjectSerializer {
         }
 
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("objclass={} obj={} bytes=\n{}", obj.getClass(), obj, xmlStr);
+            LOGGER.trace("objclass={} obj={} xmlStr=\n{}", obj.getClass(), obj, xmlStr);
         }
 
         return xmlStr.getBytes();
