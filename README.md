@@ -25,16 +25,16 @@ Basic Usage
 
 ```java
 
-    DataSource ds = createDataSource(); // Your data base data source. You can create it as you pls
-    ObjectSerializer os = new ObjectXmlSerializer();
+DataSource ds = createDataSource(); // Your data base data source. You can create it as you pls
+ObjectSerializer os = new ObjectXmlSerializer();
 
-    DefaultObjectStoreDao doso = new DefaultObjectStoreDao(ds, "test_object_store");
-    doso.createTableSchema(); // If you are creating schema outside. Refer to schema creating.
+DefaultObjectStoreDao doso = new DefaultObjectStoreDao(ds, "test_object_store");
+doso.createTableSchema(); // If you are creating schema outside. Refer to schema creating.
 
-    ObjectStoreImpl objStore = new ObjectStoreImpl("test-object-store", doso, os);
-    objStore.put("1", "Hello");
+ObjectStoreImpl objStore = new ObjectStoreImpl("test-object-store", doso, os);
+objStore.put("1", "Hello");
 
-    String value = objStore.get("1", String.class);
+String value = objStore.get("1", String.class);
 
 ```
 
@@ -45,8 +45,8 @@ If you are creating schema manually then you can below sql statement as referenc
 
 ```sql
 
-    CREATE TABLE test_object_store (create_time TIMESTAMP, update_time TIMESTAMP, expire_time TIMESTAMP, key_str VARCHAR(200), value_obj BLOB);
-    // INDEX CREATION
-    CREATE INDEX test_object_store_kes_str ON test_object_store (key_str);
+CREATE TABLE test_object_store (create_time TIMESTAMP, update_time TIMESTAMP, expire_time TIMESTAMP, key_str VARCHAR(200), value_obj BLOB);
+// INDEX CREATION
+CREATE INDEX test_object_store_kes_str ON test_object_store (key_str);
     
 ```
