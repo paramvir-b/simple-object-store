@@ -137,9 +137,9 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
     }
 
     @Override
-    public byte[] fetchBytes(String key, LocalDateTime now) {
+    public byte[] fetchBytes(String key, LocalDateTime expireTime) {
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("Fetching bytes stringKey={} now={}", key, now);
+            LOGGER.trace("Fetching bytes stringKey={} expireTime={}", key, expireTime);
         }
 
         Connection conn = null;
@@ -152,7 +152,7 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
             stmt = conn.prepareStatement(selectQueryWithStringKeyStr);
             stmt.setString(1, key);
 
-            Timestamp nowTS = new Timestamp(now.toDate().getTime());
+            Timestamp nowTS = new Timestamp(expireTime.toDate().getTime());
             stmt.setTimestamp(2, nowTS);
 
             rs = stmt.executeQuery();
@@ -306,10 +306,4 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
         return keyCount;
     }
 
-    @Override
-    public boolean isKeyExists(String key) {
-
-
-        return false;
-    }
 }

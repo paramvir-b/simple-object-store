@@ -97,17 +97,14 @@ public class ObjectStoreImpl implements ObjectStore {
 
     @Override
     public void put(String key, Object valueObj) {
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("put key={} value={} in object insert id={} name={}", key, valueObj, id, name);
-        }
-        byte[] bytes = objectSerializer.toBytes(valueObj);
-        objectStoreDao.insert(key, bytes, null);
+        put(key, valueObj, null);
     }
 
     @Override
     public void put(String key, Object valueObj, LocalDateTime expireTime) {
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("put key={} value={} in object store id={} name={}", key, valueObj, id, name);
+            LOGGER.trace("put key={} value={} expireTime={} in object store id={} name={}", key, valueObj, expireTime,
+                    id, name);
         }
         byte[] bytes = objectSerializer.toBytes(valueObj);
         objectStoreDao.insert(key, bytes, expireTime);
@@ -115,17 +112,14 @@ public class ObjectStoreImpl implements ObjectStore {
 
     @Override
     public void putOrUpdate(String key, Object valueObj) {
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("put key={} value={} in object store id={} name={}", key, valueObj, id, name);
-        }
-        byte[] bytes = objectSerializer.toBytes(valueObj);
-        objectStoreDao.insertOrUpdate(key, bytes, null);
+        putOrUpdate(key, valueObj, null);
     }
 
     @Override
     public void putOrUpdate(String key, Object valueObj, LocalDateTime expireTime) {
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("put key={} value={} in object store id={} name={}", key, valueObj, id, name);
+            LOGGER.trace("put key={} value={} expireTime={} in object store id={} name={}", key, valueObj, expireTime,
+                    id, name);
         }
         byte[] bytes = objectSerializer.toBytes(valueObj);
         objectStoreDao.insertOrUpdate(key, bytes, expireTime);
