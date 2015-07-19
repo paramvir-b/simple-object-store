@@ -50,19 +50,19 @@ public class ObjectJsonSerializer implements ObjectSerializer {
     }
 
     private Gson createGson(boolean isCompact) {
-        Gson gson = null;
+        Gson retGson = null;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
         gsonBuilder.registerTypeAdapter(DateTime.class, new DateTimeConverter());
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateConverter());
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter());
         if (isCompact) {
-            gson = gsonBuilder.create();
+            retGson = gsonBuilder.create();
         } else {
-            gson = gsonBuilder.setPrettyPrinting().create();
+            retGson = gsonBuilder.setPrettyPrinting().create();
         }
 
-        return gson;
+        return retGson;
     }
 
     @Override
