@@ -8,7 +8,7 @@ import org.joda.time.LocalDateTime;
  */
 public interface ObjectStoreDao {
 
-    public final static class ObjectStoreCols {
+    public static final  class ObjectStoreCols {
         /**
          * Create time for entry
          */
