@@ -1,5 +1,6 @@
 package com.rokoder.simpleobjectstore.dao;
 
+import com.rokoder.simpleobjectstore.util.TestHelper;
 import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +10,11 @@ import javax.sql.DataSource;
 public abstract class DefaultObjectStoreDaoTest {
 
     public abstract DataSource createDataSource();
+
+    @Test
+    public void testObjectStoreColsConstructor() {
+        TestHelper.testPrivateVoidConstructor(ObjectStoreDao.ObjectStoreCols.class);
+    }
 
     @Test
     public void testBasic() {

@@ -30,6 +30,9 @@ public interface ObjectStoreDao {
          */
         public static final String VALUE_OBJ = "VALUE_OBJ";
 
+        private ObjectStoreCols() {
+            // No constructor
+        }
     }
 
     /**
