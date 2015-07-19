@@ -94,7 +94,7 @@ public class DefaultObjectStoreDao implements ObjectStoreDao {
             LOGGER.info("create index query={}", query);
             stmt.execute(query);
         } catch (SQLException e) {
-            throw new IllegalStateException("Creating table failed for: " + e.getMessage(), e);
+            throw new IllegalStateException("Creating table=" + tableName + " failed with error: " + e.getMessage(), e);
         } finally {
             DatabaseUtil.closeConnStmtRsAndIgnoreExp(conn, stmt, null);
         }
