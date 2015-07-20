@@ -45,9 +45,9 @@ If you are creating schema manually then you can below sql statement as referenc
 
 ```sql
 
-CREATE TABLE test_object_store (create_time TIMESTAMP, update_time TIMESTAMP, expire_time TIMESTAMP, key_str VARCHAR(200), value_obj BLOB);
+CREATE TABLE <obj-store-table-name> (create_time TIMESTAMP, update_time TIMESTAMP, expire_time TIMESTAMP, key_str VARCHAR(200), value_obj BLOB);
 // INDEX CREATION
-CREATE INDEX test_object_store_kes_str ON test_object_store (key_str);
+CREATE INDEX <index-name> ON <obj-store-table-name> (key_str);
 
 ```
 
