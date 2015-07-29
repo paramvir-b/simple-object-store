@@ -15,9 +15,9 @@ Features
 --------
 
  * Support object storage and retrieval.
- * Out of box support for various object storage serializers like XML, Java Serialization, Json etc.
- * Zip serialzer which can be combined with other serailizers to enable compression.
- * Out of box XML convertors for joda-time objects.
+ * Out of box support for various object storage serializers like XML, Java Serialization, JSON etc.
+ * Zip serializer which can be combined with other serializers to enable compression.
+ * Out of box XML/JSON convertors for joda-time/date objects to ISO format.
  * Support for object expiry based on time. Every object can have its own expiry time set.
 
 Basic Usage
