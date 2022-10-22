@@ -2,6 +2,8 @@ package com.rokoder.simpleobjectstore.serializer.xml;
 
 import com.rokoder.simpleobjectstore.TestModel;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+import com.thoughtworks.xstream.security.TypeHierarchyPermission;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -47,6 +49,7 @@ public class ObjectXmlSerializerTest {
     @Test
     public void testConstructorWithXStream() {
         XStream xStream = new XStream();
+        xStream.addPermission(AnyTypePermission.ANY);
         ObjectXmlSerializer os = new ObjectXmlSerializer(xStream, false);
 
         LocalDate ld = new LocalDate();

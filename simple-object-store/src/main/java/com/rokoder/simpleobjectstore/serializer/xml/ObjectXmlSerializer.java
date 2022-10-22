@@ -7,6 +7,7 @@ import com.rokoder.simpleobjectstore.serializer.xml.converter.LocalDateConverter
 import com.rokoder.simpleobjectstore.serializer.xml.converter.LocalDateTimeConverter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +54,7 @@ public class ObjectXmlSerializer implements ObjectSerializer {
 
     private XStream createDefaultXStream() {
         XStream xs = new XStream();
+        xs.addPermission(AnyTypePermission.ANY);
         xs.registerConverter(new LocalDateConverter());
         xs.registerConverter(new LocalDateTimeConverter());
         xs.registerConverter(new DateTimeConverter());
