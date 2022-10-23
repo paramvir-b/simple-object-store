@@ -3,7 +3,6 @@ package com.rokoder.simpleobjectstore.serializer.xml;
 import com.rokoder.simpleobjectstore.TestModel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
-import com.thoughtworks.xstream.security.TypeHierarchyPermission;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
